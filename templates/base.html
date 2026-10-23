@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Campus Complaint Portal{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='images/logo.png') }}" type="image/png">
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+
+  {% block content %}
+    {# If base is rendered directly for errors #}
+    <div style="max-width: 600px; margin: 80px auto; text-align: center; padding: 30px; background: #fff; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+      <h2 style="color: #1e293b; margin-bottom: 12px;">{{ error_title or 'Notice' }}</h2>
+      <p style="color: #64748b; margin-bottom: 24px;">{{ error_message or 'An unexpected situation occurred.' }}</p>
+      <a href="{{ url_for('index') }}" class="btn btn-primary">Return to Home</a>
+    </div>
+  {% endblock %}
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

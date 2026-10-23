@@ -1,0 +1,15 @@
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.sqlite
+instance/
+.pytest_cache/
+.env
+
+# Analysis and temporary extracted files
+extracted_images/
+doc_images/
+analyzed_figures/
+extracted_screenshots/

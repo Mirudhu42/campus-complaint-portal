@@ -1,0 +1,71 @@
+{% extends "admin/base_admin.html" %}
+
+{% set active_page = 'manage_complaints' %}
+
+{% block title %}Complaint {{ complaint.complaint_code }} — Admin View{% endblock %}
+{% block page_title %}Complaint Details{% endblock %}
+
+{% block admin_content %}
+<div>
+  <a href="{{ url_for('admin.manage_complaints') }}" class="back-link">
+    &larr; Back to Manage Complaints
+  </a>
+
+  <div class="details-card">
+    <div class="content-card-header" style="margin-bottom: 8px;">
+      <h2 class="content-card-title">Complaint Information</h2>
+      <a href="{{ url_for('admin.update_complaint', complaint_id=complaint.complaint_code) }}" class="btn btn-update btn-sm">
+        Update Status
+      </a>
+    </div>
+
+    <div class="details-row">
+      <div class="details-label">Complaint ID</div>
+      <div class="details-value">
+        <span class="complaint-code">{{ complaint.complaint_code }}</span>
+      </div>
+    </div>
+
+    <div class="details-row">
+      <div class="details-label">Student Name</div>
+      <div class="details-value">{{ complaint.student_name }} ({{ complaint.student_email }})</div>
+    </div>
+
+    <div class="details-row">
+      <div class="details-label">Category</div>
+      <div class="details-value">{{ complaint.category }}</div>
+    </div>
+
+    <div class="details-row">
+      <div class="details-label">Subject</div>
+      <div class="details-value">{{ complaint.subject }}</div>
+    </div>
+
+    <div class="details-row">
+      <div class="details-label">Description</div>
+      <div class="details-value" style="white-space: pre-wrap; line-height: 1.6;">{{ complaint.description }}</div>
+    </div>
+
+    <div class="details-row">
+      <div class="details-label">Status</div>
+      <div class="details-value">
+        <span class="status-badge status-{{ complaint.status.lower().replace(' ', '-') }}">
+          {{ complaint.status }}
+        </span>
+      </div>
+    </div>
+
+    <div class="details-row">
+      <div class="details-label">Admin Remarks</div>
+      <div class="details-value">
+        {{ complaint.admin_remarks or 'Not updated yet' }}
+      </div>
+    </div>
+
+    <div class="details-row">
+      <div class="details-label">Submission Date</div>
+      <div class="details-value">{{ complaint.created_at|format_date }}</div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "admin/base_admin.html" %}
+
+{% set active_page = 'profile' %}
+
+{% block title %}Administrator Profile — Campus Complaint Portal{% endblock %}
+{% block page_title %}Profile{% endblock %}
+
+{% block admin_content %}
+<div class="content-card" style="max-width: 600px;">
+  <div class="content-card-header">
+    <h2 class="content-card-title">Administrator Profile</h2>
+  </div>
+
+  <form action="{{ url_for('admin.profile') }}" method="POST">
+    <div class="form-group">
+      <label class="form-label" for="full_name">Administrator Name</label>
+      <input type="text" id="full_name" name="full_name" class="form-control" 
+             value="{{ admin.full_name }}" required>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="email">Admin Email Address</label>
+      <input type="email" id="email" class="form-control" 
+             value="{{ admin.email }}" disabled style="background-color: #f1f5f9; cursor: not-allowed;">
+      <small style="color: var(--text-muted); font-size: 11.5px;">Admin email is fixed for system security.</small>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="role">Role & Access Level</label>
+      <input type="text" class="form-control" value="Full System Administrator" disabled style="background-color: #f1f5f9;">
+    </div>
+
+    <hr style="border: 0; border-top: 1px solid var(--border-subtle); margin: 24px 0;">
+
+    <h3 style="font-size: 14px; font-weight: 700; margin-bottom: 12px; color: var(--text-main);">Update Password</h3>
+
+    <div class="form-group">
+      <label class="form-label" for="current_password">Current Password</label>
+      <input type="password" id="current_password" name="current_password" class="form-control" placeholder="Enter current password">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="new_password">New Password</label>
+      <input type="password" id="new_password" name="new_password" class="form-control" placeholder="Min 6 characters">
+    </div>
+
+    <button type="submit" class="btn btn-purple" style="padding: 9px 20px;">
+      Save Profile Changes
+    </button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,106 @@
+{% extends "admin/base_admin.html" %}
+
+{% set active_page = 'reports' %}
+
+{% block title %}Reports — Campus Complaint Portal{% endblock %}
+{% block page_title %}Reports{% endblock %}
+
+{% block admin_content %}
+<div class="reports-grid">
+  
+  <!-- Left: Category-wise Complaints Pie Chart -->
+  <div class="chart-card">
+    <h3 class="chart-title">Category-wise Complaints</h3>
+    <div class="chart-wrapper" style="min-height: 320px;">
+      <canvas id="categoryPieChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Right: Summary Card -->
+  <div class="content-card" style="margin-bottom: 0;">
+    <h3 class="chart-title" style="padding-bottom: 12px; border-bottom: 1px solid var(--border-subtle);">Summary</h3>
+    
+    <ul class="reports-summary-list">
+      <li class="reports-summary-item">
+        <span class="reports-summary-label">Total Complaints</span>
+        <span class="reports-summary-count">{{ total }}</span>
+      </li>
+      <li class="reports-summary-item">
+        <span class="reports-summary-label">Pending Complaints</span>
+        <span class="reports-summary-count" style="color: #f59e0b;">{{ pending }}</span>
+      </li>
+      <li class="reports-summary-item">
+        <span class="reports-summary-label">In Progress Complaints</span>
+        <span class="reports-summary-count" style="color: #3b82f6;">{{ in_progress }}</span>
+      </li>
+      <li class="reports-summary-item">
+        <span class="reports-summary-label">Resolved Complaints</span>
+        <span class="reports-summary-count" style="color: #10b981;">{{ resolved }}</span>
+      </li>
+    </ul>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/chart.min.js') }}"></script>
+<script>
+  const reportCategories = {{ report_categories|tojson }};
+  const reportCounts = {{ report_counts|tojson }};
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const pieCtx = document.getElementById('categoryPieChart').getContext('2d');
+    
+    // Exact palette colors matching screenshot Figure 2.4
+    const palette = [
+      '#2563eb', // WiFi (Blue)
+      '#8b5cf6', // Classroom (Purple)
+      '#10b981', // Hostel (Green)
+      '#84cc16', // Library (Lime)
+      '#f97316', // Laboratory (Orange)
+      '#f43f5e', // Transport (Rose)
+      '#ef4444', // Canteen (Red)
+      '#64748b'  // Others (Slate)
+    ];
+
+    new Chart(pieCtx, {
+      type: 'pie',
+      data: {
+        labels: reportCategories,
+        datasets: [{
+          data: reportCounts,
+          backgroundColor: palette,
+          borderWidth: 2,
+          borderColor: '#ffffff',
+          hoverOffset: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'right',
+            labels: {
+              boxWidth: 12,
+              font: { size: 12 },
+              padding: 12
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                const val = context.raw || 0;
+                const pct = total > 0 ? Math.round((val / total) * 100) : 0;
+                return ` ${context.label}: ${val} (${pct}%)`;
+              }
+            }
+          }
+        }
+      }
+    });
+  });
+</script>
+{% endblock %}

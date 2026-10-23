@@ -1,0 +1,40 @@
+{% extends "student/base_student.html" %}
+
+{% set active_page = 'raise_complaint' %}
+
+{% block title %}Raise a New Complaint — Campus Complaint Portal{% endblock %}
+{% block page_title %}Raise a New Complaint{% endblock %}
+
+{% block student_content %}
+<div class="content-card" style="max-width: 680px;">
+  <form action="{{ url_for('student.raise_complaint') }}" method="POST">
+    
+    <div class="form-group">
+      <label class="form-label" for="category">Category</label>
+      <select id="category" name="category" class="form-control" required autofocus>
+        <option value="" disabled {% if not category %}selected{% endif %}>Select Category</option>
+        {% for cat in categories %}
+          <option value="{{ cat }}" {% if category == cat %}selected{% endif %}>{{ cat }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="subject">Subject</label>
+      <input type="text" id="subject" name="subject" class="form-control" 
+             placeholder="e.g. WiFi not working in Computer Lab" 
+             value="{{ subject or '' }}" required>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="description">Description</label>
+      <textarea id="description" name="description" class="form-control" rows="5" 
+                placeholder="Provide details about the issue..." required>{{ description or '' }}</textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary" style="padding: 10px 24px; font-weight: 600;">
+      Submit Complaint
+    </button>
+  </form>
+</div>
+{% endblock %}

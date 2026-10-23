@@ -1,0 +1,53 @@
+{% extends "student/base_student.html" %}
+
+{% set active_page = 'my_complaints' %}
+
+{% block title %}My Complaints — Campus Complaint Portal{% endblock %}
+{% block page_title %}My Complaints{% endblock %}
+
+{% block student_content %}
+<div class="content-card">
+  <div class="table-responsive">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Subject</th>
+          <th>Category</th>
+          <th>Status</th>
+          <th>Date</th>
+          <th style="text-align: center;">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if complaints %}
+          {% for complaint in complaints %}
+            <tr>
+              <td><span class="complaint-code">{{ complaint.complaint_code }}</span></td>
+              <td>{{ complaint.subject }}</td>
+              <td>{{ complaint.category }}</td>
+              <td>
+                <span class="status-badge status-{{ complaint.status.lower().replace(' ', '-') }}">
+                  {{ complaint.status }}
+                </span>
+              </td>
+              <td>{{ complaint.created_at|format_date }}</td>
+              <td style="text-align: center;">
+                <a href="{{ url_for('student.complaint_details', complaint_id=complaint.complaint_code) }}" class="btn btn-view btn-sm">
+                  View
+                </a>
+              </td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 40px;">
+              You have not submitted any complaints yet.
+            </td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends "admin/base_admin.html" %}
+
+{% set active_page = 'manage_complaints' %}
+
+{% block title %}Manage Complaints — Campus Complaint Portal{% endblock %}
+{% block page_title %}Manage Complaints{% endblock %}
+
+{% block admin_content %}
+<div class="content-card">
+  
+  <!-- Filter & Search Bar -->
+  <form method="GET" action="{{ url_for('admin.manage_complaints') }}" class="filter-bar">
+    <select name="filter" class="filter-select" onchange="this.form.submit()">
+      <option value="" {% if not status_filter or status_filter == 'all' %}selected{% endif %}>Filter</option>
+      <option value="all" {% if status_filter == 'all' %}selected{% endif %}>All Complaints</option>
+      <option value="Pending" {% if status_filter == 'Pending' %}selected{% endif %}>Pending</option>
+      <option value="In Progress" {% if status_filter == 'In Progress' %}selected{% endif %}>In Progress</option>
+      <option value="Resolved" {% if status_filter == 'Resolved' %}selected{% endif %}>Resolved</option>
+    </select>
+
+    <input type="text" name="search" class="search-input" placeholder="Search..." 
+           value="{{ search_query or '' }}" onkeydown="if(event.key === 'Enter') this.form.submit();">
+    
+    {% if status_filter or search_query %}
+      <a href="{{ url_for('admin.manage_complaints') }}" class="btn btn-outline btn-sm" style="font-size: 11px;">Reset</a>
+    {% endif %}
+  </form>
+
+  <!-- Complaints Table -->
+  <div class="table-responsive">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Student Name</th>
+          <th>Category</th>
+          <th>Subject</th>
+          <th>Status</th>
+          <th>Date</th>
+          <th style="text-align: center;">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if complaints %}
+          {% for complaint in complaints %}
+            <tr>
+              <td><span class="complaint-code">{{ complaint.complaint_code }}</span></td>
+              <td>{{ complaint.student_name }}</td>
+              <td>{{ complaint.category }}</td>
+              <td>{{ complaint.subject }}</td>
+              <td>
+                <span class="status-badge status-{{ complaint.status.lower().replace(' ', '-') }}">
+                  {{ complaint.status }}
+                </span>
+              </td>
+              <td>{{ complaint.created_at|format_date }}</td>
+              <td style="text-align: center; white-space: nowrap;">
+                <a href="{{ url_for('admin.view_complaint', complaint_id=complaint.complaint_code) }}" class="btn btn-view btn-sm">
+                  View
+                </a>
+                <a href="{{ url_for('admin.update_complaint', complaint_id=complaint.complaint_code) }}" class="btn btn-update btn-sm">
+                  Update
+                </a>
+              </td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 40px;">
+              No complaints found matching the criteria.
+            </td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

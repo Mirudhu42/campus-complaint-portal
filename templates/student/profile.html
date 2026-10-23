@@ -1,0 +1,53 @@
+{% extends "student/base_student.html" %}
+
+{% set active_page = 'profile' %}
+
+{% block title %}Student Profile — Campus Complaint Portal{% endblock %}
+{% block page_title %}Profile{% endblock %}
+
+{% block student_content %}
+<div class="content-card" style="max-width: 600px;">
+  <div class="content-card-header">
+    <h2 class="content-card-title">Student Profile</h2>
+  </div>
+
+  <form action="{{ url_for('student.profile') }}" method="POST">
+    <div class="form-group">
+      <label class="form-label" for="full_name">Full Name</label>
+      <input type="text" id="full_name" name="full_name" class="form-control" 
+             value="{{ student.full_name }}" required>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="email">Email Address</label>
+      <input type="email" id="email" class="form-control" 
+             value="{{ student.email }}" disabled style="background-color: #f1f5f9; cursor: not-allowed;">
+      <small style="color: var(--text-muted); font-size: 11.5px;">Email address cannot be changed directly.</small>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="created_at">Member Since</label>
+      <input type="text" class="form-control" 
+             value="{{ student.created_at|format_date }}" disabled style="background-color: #f1f5f9;">
+    </div>
+
+    <hr style="border: 0; border-top: 1px solid var(--border-subtle); margin: 24px 0;">
+
+    <h3 style="font-size: 14px; font-weight: 700; margin-bottom: 12px; color: var(--text-main);">Change Password (Optional)</h3>
+
+    <div class="form-group">
+      <label class="form-label" for="current_password">Current Password</label>
+      <input type="password" id="current_password" name="current_password" class="form-control" placeholder="Leave blank if not changing">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="new_password">New Password</label>
+      <input type="password" id="new_password" name="new_password" class="form-control" placeholder="Min 6 characters">
+    </div>
+
+    <button type="submit" class="btn btn-primary" style="padding: 9px 20px;">
+      Save Changes
+    </button>
+  </form>
+</div>
+{% endblock %}

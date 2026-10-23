@@ -1,0 +1,62 @@
+{% extends "admin/base_admin.html" %}
+
+{% set active_page = 'manage_complaints' %}
+
+{% block title %}Update Complaint Status — Campus Complaint Portal{% endblock %}
+{% block page_title %}Update Complaint Status{% endblock %}
+
+{% block admin_content %}
+<div class="content-card" style="max-width: 680px;">
+  
+  <form action="{{ url_for('admin.update_complaint', complaint_id=complaint.complaint_code) }}" method="POST">
+    
+    <div class="details-row">
+      <div class="details-label">Complaint ID</div>
+      <div class="details-value">
+        <span class="complaint-code">{{ complaint.complaint_code }}</span>
+      </div>
+    </div>
+
+    <div class="details-row">
+      <div class="details-label">Student Name</div>
+      <div class="details-value">{{ complaint.student_name }}</div>
+    </div>
+
+    <div class="details-row">
+      <div class="details-label">Subject</div>
+      <div class="details-value">{{ complaint.subject }}</div>
+    </div>
+
+    <div class="details-row">
+      <div class="details-label">Current Status</div>
+      <div class="details-value">
+        <span class="status-badge status-{{ complaint.status.lower().replace(' ', '-') }}">
+          {{ complaint.status }}
+        </span>
+      </div>
+    </div>
+
+    <hr style="border: 0; border-top: 1px solid var(--border-subtle); margin: 18px 0;">
+
+    <div class="form-group">
+      <label class="form-label" for="status">New Status</label>
+      <select id="status" name="status" class="form-control" required autofocus>
+        {% for st in allowed_statuses %}
+          <option value="{{ st }}" {% if complaint.status == st %}selected{% endif %}>{{ st }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="admin_remarks">Admin Remarks</label>
+      <textarea id="admin_remarks" name="admin_remarks" class="form-control" rows="4" 
+                placeholder="Enter remarks or updates regarding this complaint...">{{ complaint.admin_remarks or '' }}</textarea>
+    </div>
+
+    <button type="submit" class="btn btn-purple btn-full" style="padding: 11px; font-weight: 600; font-size: 14px; margin-top: 10px;">
+      Update
+    </button>
+  </form>
+
+</div>
+{% endblock %}
