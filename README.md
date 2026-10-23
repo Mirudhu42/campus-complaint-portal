@@ -138,6 +138,14 @@ To create a new administrator or change the admin password:
 The application will start on:
 👉 **http://127.0.0.1:5000**
 
+#### One-step Windows setup
+
+Run `run_local.bat` from File Explorer or a Command Prompt opened in the project folder. Choose **Full setup and start the application** to create the virtual environment, install dependencies, create `.env` if needed, optionally seed the demo database, optionally create an administrator, run tests, and start Flask.
+
+The script does not overwrite an existing `.env`. Review its database settings before running; choose `DB_ENGINE=sqlite` for a local SQLite setup or configure MySQL credentials. The database reset option requires explicit confirmation and deletes existing complaints, students, and administrators before loading the demo data. Choose not to reset to preserve existing data.
+
+The other menu options can install dependencies, initialize the demo database, create/update an administrator, run tests, or start the application separately. The script uses the virtual-environment Python executable directly, so PowerShell activation policy changes are not needed.
+
 ---
 
 ### 7. Pre-Seeded Demonstration Accounts
