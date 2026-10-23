@@ -1,0 +1,60 @@
+# ==============================================================================
+# CAMPUS COMPLAINT PORTAL — POWERSHELL EXECUTION COMMANDS
+# ==============================================================================
+
+# 1. NAVIGATE TO THE PROJECT DIRECTORY
+cd C:\Users\Admin\OneDrive\Documents\campus-complaint-portal
+
+# 2. (ONE-TIME IF NEEDED) ALLOW SCRIPT EXECUTION IN POWERSHELL
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+# 3. ACTIVATE THE VIRTUAL ENVIRONMENT (.venv)
+.\.venv\Scripts\Activate.ps1
+
+# 4. (OPTIONAL) INSTALL / VERIFY DEPENDENCIES
+pip install -r requirements.txt
+
+# 5. INITIALIZE AND SEED THE DATABASE
+# (Seeds all 42 reference complaints matching the internship report screenshots)
+python scripts/init_db.py --reset
+
+# 6. RUN AUTOMATED TESTS (15/15 TESTS PASSING)
+pytest -v
+
+# 7. START THE FLASK APPLICATION
+python app.py
+
+# 8. OPEN IN BROWSER
+# URL: http://127.0.0.1:5000
+
+
+# ==============================================================================
+# DIRECT EXECUTION COMMANDS (WITHOUT PRIOR VENV ACTIVATION)
+# ==============================================================================
+
+# Seed Database:
+.\.venv\Scripts\python.exe scripts/init_db.py --reset
+
+# Run Tests:
+.\.venv\Scripts\pytest.exe -v
+
+# Start Server:
+.\.venv\Scripts\python.exe app.py
+
+# Create / Update Administrator Account:
+.\.venv\Scripts\python.exe scripts/create_admin.py "Admin S" "admin@campus.edu" "Admin123!"
+
+
+# ==============================================================================
+# PRE-SEEDED DEMONSTRATION CREDENTIALS
+# ==============================================================================
+
+# STUDENT ACCOUNT (Matches Report Figures 1.2 – 1.7):
+# Email:    aarthi.s@gmail.com
+# Password: Password123!
+# Stats:    12 Complaints (5 Pending, 4 In Progress, 3 Resolved)
+
+# ADMINISTRATOR ACCOUNT (Matches Report Figures 2.1 – 2.4):
+# Email:    admin@campus.edu
+# Password: Admin123!
+# Stats:    42 Total Complaints, live category & doughnut charts, reports
