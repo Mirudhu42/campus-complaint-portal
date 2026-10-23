@@ -893,13 +893,28 @@ textarea.form-control {
   justify-content: center;
   text-align: center;
   padding: 100px 20px 80px;
-  background-image: linear-gradient(rgba(10, 25, 55, 0.78), rgba(10, 25, 55, 0.88)), url('../images/campus-hero.jpg');
-  background-size: cover;
-  background-position: center;
+  overflow: hidden;
+  background-color: #0b1f3a;
+  background-image:
+    radial-gradient(ellipse at 76% 32%, rgba(56, 189, 248, 0.2), transparent 36%),
+    radial-gradient(ellipse at 18% 88%, rgba(37, 99, 235, 0.28), transparent 42%),
+    linear-gradient(120deg, #0b1f3a 0%, #123b70 54%, #0a2549 100%);
   color: #ffffff;
 }
 
+.home-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 82% 54%, transparent 0 105px, rgba(191, 219, 254, 0.12) 106px 107px, transparent 108px 151px, rgba(191, 219, 254, 0.08) 152px 153px, transparent 154px),
+    linear-gradient(135deg, transparent 69.8%, rgba(191, 219, 254, 0.07) 70%, transparent 70.2%);
+}
+
 .hero-content {
+  position: relative;
+  z-index: 1;
   max-width: 680px;
   margin: 0 auto;
 }
