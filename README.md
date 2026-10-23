@@ -159,9 +159,15 @@ Run the complete test suite with `pytest`:
 
 All 15 tests covering authentication, registration, student complaints, admin workflows, filters, and reports will execute.
 
+### 9. GitHub Actions CI
+
+The workflow in [`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs the test suite on every push and pull request, and can also be started manually from the GitHub Actions tab. It uses Python 3.12 and SQLite-backed test fixtures, so it does not require production database credentials.
+
+This workflow verifies changes; it does not deploy the app to a hosting provider. A provider-specific deploy job requires a hosting target and its deployment credentials.
+
 ---
 
-### 9. Troubleshooting
+### 10. Troubleshooting
 
 - **MySQL Connection Refused (`2003: Can't connect to MySQL server on 'localhost'`):**
   - Verify the MySQL service is running via Windows Services (`services.msc`) or XAMPP.
@@ -178,6 +184,9 @@ All 15 tests covering authentication, registration, student complaints, admin wo
 
 ```
 campus-complaint-portal/
+├── .github/
+│   └── workflows/
+│       └── ci.yml             # GitHub Actions test pipeline
 ├── app.py                     # Flask application factory, filters, routes
 ├── config.py                  # Environment and database configuration
 ├── db.py                      # Multi-engine (MySQL/SQLite) database connection layer
